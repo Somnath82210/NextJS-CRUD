@@ -1,0 +1,3 @@
+This is NextJS project using Typescript.
+Feature is---- used json file downloader to validate registered users
+Work is still in progress......
