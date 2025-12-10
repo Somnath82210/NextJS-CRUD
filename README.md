@@ -1,3 +1,3 @@
 This is NextJS project using Typescript.
-Feature is---- used json file downloader to validate registered users
+Feature is---- Real time activity count
 Work is still in progress......
