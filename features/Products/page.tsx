@@ -1,9 +1,10 @@
-import ProductsPage from "./producttable/ProductTable";
+import ProductTable from "./producttable/ProductsTable"
 
-export const Products = ()=>{
+export default function Products(){
+
     return (
         <div>
-            <ProductsPage/>
+            <ProductTable/>
         </div>
     )
 }

@@ -2,10 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/sidebar/DynamicSidebar';
-import Dashboard from '@/features/dashboard/page';
+import Products from '@/features/products/page';
 import { SidebarItem } from '@/components/sidebar/types';
 
-export default function DashboardPage() {
+export default function ProductsPage() {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -48,7 +48,7 @@ export default function DashboardPage() {
       <Sidebar items={sidebarItems} logoText="MyApp" />
       
       <main className="flex-1 overflow-y-auto">
-        <Dashboard />
+        <Products />
       </main>
     </div>
   );

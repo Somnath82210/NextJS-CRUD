@@ -1,10 +1,10 @@
-import { LoginPage } from "./form/LoginForm"
+import LoginPage from "./loginform/Login"
 
-export const Login = () => {
+export default function Login(){
 
-  return (
-    <div>
-      <LoginPage/>
-    </div>
-  )
+    return (
+        <div>
+            <LoginPage/>
+        </div>
+    )
 }

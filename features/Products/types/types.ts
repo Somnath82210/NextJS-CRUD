@@ -1,62 +1,40 @@
-//store
-export interface ProductSlice {
-    id: string;
+export interface Product {
+    id: number;
     name: string;
+    category: string;
     price: number;
-    pageSize: number;
-    qty: number;
-    date: string;
-    status: 'Available' | 'Out of Stock';
+    stock: number;
+    status: 'In Stock' | 'Low Stock' | 'Out of Stock';
+    lastUpdated: string;
+    [key: string]: unknown;
+  }
+
+  export interface ProductFormData {
+    name: string;
+    category: string;
+    price: string;
+    stock: string;
+  }
+  export type ProductStatus = 'In Stock' | 'Low Stock' | 'Out of Stock';
+
+export interface StatItem {
+  label: string;
+  value: number;
+  color: string;
+}
+
+
+
+  //form
+  export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
+
+  export interface FormField {
+    name: string;
+    label: string;
+    type: FormFieldType;
+    placeholder?: string;
+    required?: boolean;
+    autoComplete?: string;
+    colSpan?: number;
   }
   
-  export interface ProductsState {
-    products: ProductSlice[];
-    loading: boolean;
-    error: string | null;
-  }
-  // create products
-  export interface ProductFormData {
-      productName: string;
-      pageSize: string;
-      format: string;
-      category: string;
-      price: string;
-      quantity: string;
-      status: string;
-      photos: string[];
-      reportFile: File | null;
-    }
-
-    export interface ValidationErrors {
-      productName?: string;
-      pageSize?: string;
-      format?: string;
-      category?: string;
-      price?: string;
-      quantity?: string;
-      status?: string;
-    }
-
-    // edit modal 
-
-    export interface EditModalProps {
-      isOpen: boolean;
-      onClose: () => void;
-      productData: {
-        id: string;
-        name: string;
-        price: string;
-        pageSize: string;
-      };
-      setProductData: React.Dispatch<
-        React.SetStateAction<{
-          id: string;
-          name: string;
-          price: string;
-          pageSize: string;
-        }>
-      >;
-      onSubmit: () => void;
-    }
-    
-    

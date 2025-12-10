@@ -1,10 +1,10 @@
-import Dashboard from "./dashboard/Dashboard"
+import DashboardPage from "./main/Dashboard"
 
-export const DashboardPage = () => {
+export default function Dashboard(){
 
-  return (
-    <div>
-      <Dashboard/>
-    </div>
-  )
+    return (
+        <div>
+            <DashboardPage/>
+        </div>
+    )
 }
