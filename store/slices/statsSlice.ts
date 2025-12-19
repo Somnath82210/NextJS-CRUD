@@ -9,7 +9,7 @@ const statsSlice = createSlice({
   name: 'stats',
   initialState,
   reducers: {
-    updateStatsHistory: (state, action: PayloadAction<Omit<StatsHistory, 'timestamp'>>) => {
+    updateStatsHistory: (state: StatsState, action: PayloadAction<Omit<StatsHistory, 'timestamp'>>) => {
       const newHistory: StatsHistory = {
         ...action.payload,
         timestamp: Date.now()

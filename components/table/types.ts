@@ -20,4 +20,7 @@ export interface DynamicTableProps<T> {
   emptyMessage?: string;
   hoverable?: boolean;
   striped?: boolean;
+  itemsPerPage?: number; 
+  showPagination?: boolean; 
+  alwaysShowPagination: boolean;
 }

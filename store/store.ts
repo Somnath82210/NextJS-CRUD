@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
+import {  persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import productsReducer from './slices/productSlices';
 import activityReducer from './slices/activitySlice';
 import statsReducer from './slices/statsSlice';
+import authReducer from './slices/authSlice';
 
 const productsPersistConfig = {
   key: 'products',
@@ -20,9 +21,15 @@ const statsPersistConfig = {
   storage,
 };
 
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+};
+
 const persistedProductsReducer = persistReducer(productsPersistConfig, productsReducer);
 const persistedActivityReducer = persistReducer(activityPersistConfig, activityReducer);
 const persistedStatsReducer = persistReducer(statsPersistConfig, statsReducer);
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 
 export const makeStore = () => {
   return configureStore({
@@ -30,6 +37,7 @@ export const makeStore = () => {
       products: persistedProductsReducer,
       activity: persistedActivityReducer,
       stats: persistedStatsReducer,
+      auth: persistedAuthReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

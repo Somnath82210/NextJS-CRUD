@@ -10,4 +10,8 @@ export interface SidebarProps {
   items: SidebarItem[];
   logo?: React.ReactNode;
   logoText?: string;
+  userInfo?: {
+    name: string;
+    email: string;
+  };
 }

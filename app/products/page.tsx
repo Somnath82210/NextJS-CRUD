@@ -4,11 +4,15 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/sidebar/DynamicSidebar';
 import Products from '@/features/products/page';
 import { SidebarItem } from '@/components/sidebar/types';
+import { useAppDispatch } from '@/store/hooks/hooks';
+import { logoutUser } from '@/store/slices/authSlice';   
 
 export default function ProductsPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
+    dispatch(logoutUser());
     router.push('/');
   };
 
@@ -24,7 +28,7 @@ export default function ProductsPage() {
     },
     {
       name: 'Products',
-      href: '/dashboard/products',
+      href: '/products',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />

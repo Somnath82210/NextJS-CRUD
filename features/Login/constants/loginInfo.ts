@@ -12,15 +12,15 @@ export const loginFields: FormField[] = [
     label: 'Email address',
     type: 'email',
     placeholder: 'Enter your email',
-    required: true,
-    autoComplete: 'email'
+    autoComplete: 'email',
+    options: []
   },
   {
     name: 'password',
     label: 'Password',
     type: 'password',
     placeholder: 'Enter your password',
-    required: true,
-    autoComplete: 'current-password'
+    autoComplete: 'current-password',
+    options: []
   }
 ];

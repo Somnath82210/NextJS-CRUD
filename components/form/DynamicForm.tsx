@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DynamicFormProps } from "./type"
-
+import { defaultInputClass, defaultLabelClass } from './constants';
 
 export default function DynamicForm({
   formData,
@@ -21,56 +21,83 @@ export default function DynamicForm({
     }));
   };
 
-  const defaultLabelClass = 'block text-sm font-medium text-gray-700 mb-1.5';
-  const defaultInputClass = 'appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 ease-in-out';
-
   return (
-    <div 
+    <div
       className={`grid gap-4 ${colSpan > 1 ? `grid-cols-${colSpan}` : ''} ${noGapBottom ? 'mb-0' : ''}`}
       style={colSpan > 1 ? { gridTemplateColumns: `repeat(${colSpan}, minmax(0, 1fr))` } : {}}
     >
       {formFields.map((field) => {
         const isPassword = field.type === 'password';
-        const isPasswordVisible = showPasswords[field.name];
-        const inputType = isPassword && isPasswordVisible ? 'text' : field.type;
+        const isSelect = field.type === 'select';
+        const visible = showPasswords[field.name];
+        const inputType = field.type === 'email' ? 'text' : (isPassword && visible ? 'text' : field.type);
 
         return (
-          <div 
+          <div
             key={field.name}
             className={field.colSpan ? `col-span-${field.colSpan}` : ''}
             style={field.colSpan ? { gridColumn: `span ${field.colSpan} / span ${field.colSpan}` } : {}}
           >
-            <label 
-              htmlFor={field.name} 
+            <label
+              htmlFor={field.name}
               className={labelClassName || defaultLabelClass}
             >
               {field.label}
               {field.required && <span className="text-red-500 ml-1">*</span>}
             </label>
-            
+
             <div className="relative">
-              <input
-                id={field.name}
-                name={field.name}
-                type={inputType}
-                autoComplete={field.autoComplete}
-                required={field.required}
-                value={formData[field.name] || ''}
-                onChange={(e) => onChange(field.name, e.target.value)}
-                className={`${inputClassName || defaultInputClass} ${
-                  errors[field.name] ? 'border-red-500 focus:ring-red-500' : ''
-                } ${isPassword ? 'pr-10' : ''}`}
-                placeholder={field.placeholder}
-              />
-              
+              {isSelect ? (
+                <select
+                  id={field.name}
+                  name={field.name}
+                  value={formData[field.name] || ''}
+                  onChange={(e) => onChange(field.name, e.target.value)}
+                  className={`
+                    ${inputClassName || defaultInputClass}
+                    ${errors[field.name]
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:ring-indigo-500'
+                    }
+                    bg-white
+                  `}
+                >
+                  <option value="">{field.placeholder || `Select ${field.label}`}</option>
+                  {field.options?.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type={inputType}
+                  value={formData[field.name] || ''}
+                  onChange={(e) => onChange(field.name, e.target.value)}
+                  placeholder={field.placeholder}
+                  autoComplete={field.autoComplete}
+                  className={`
+                    ${inputClassName || defaultInputClass}
+                    ${errors[field.name]
+                      ? 'border-red-500 focus:ring-red-500'
+                      : 'border-gray-300 focus:ring-indigo-500'
+                    }
+                    ${isPassword ? 'pr-10' : ''}
+                  `}
+                />
+              )}
+
+              {/* Password toggle */}
               {isPassword && (
                 <button
                   type="button"
                   onClick={() => togglePasswordVisibility(field.name)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 transition-colors duration-200"
                   tabIndex={-1}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
                 >
-                  {isPasswordVisible ? (
+                  {visible ? (
                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                     </svg>
@@ -83,11 +110,16 @@ export default function DynamicForm({
                 </button>
               )}
             </div>
-            
+
+            {/* ERROR MESSAGE */}
             {errors[field.name] && (
               <p className="mt-1.5 text-sm text-red-600 flex items-center">
                 <svg className="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
                 {errors[field.name]}
               </p>

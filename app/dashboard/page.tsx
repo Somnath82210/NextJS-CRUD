@@ -1,14 +1,27 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/sidebar/DynamicSidebar';
 import Dashboard from '@/features/dashboard/page';
 import { SidebarItem } from '@/components/sidebar/types';
+import { useAppDispatch, useAppSelector } from '@/store/hooks/hooks';
+import { logoutUser } from '@/store/slices/authSlice';
 
 export default function DashboardPage() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!currentUser) {
+      router.push('/');
+    }
+  }, [currentUser, router]);
 
   const handleLogout = () => {
+    dispatch(logoutUser());
     router.push('/');
   };
 
@@ -24,7 +37,7 @@ export default function DashboardPage() {
     },
     {
       name: 'Products',
-      href: '/dashboard/products',
+      href: '/products',
       icon: (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
@@ -43,9 +56,21 @@ export default function DashboardPage() {
     }
   ];
 
+  // Don't render if not authenticated
+  if (!currentUser) {
+    return null;
+  }
+
   return (
     <div className="flex h-screen bg-gray-50">
-      <Sidebar items={sidebarItems} logoText="MyApp" />
+      <Sidebar 
+        items={sidebarItems} 
+        logoText="MyApp"
+        userInfo={{
+          name: currentUser.name,
+          email: currentUser.email
+        }}
+      />
       
       <main className="flex-1 overflow-y-auto">
         <Dashboard />

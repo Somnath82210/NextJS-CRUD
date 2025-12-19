@@ -1,4 +1,4 @@
-import LoginPage from "./loginform/Login"
+import LoginPage from "@/features/login/loginform/Login"
 
 export default function Login(){
 

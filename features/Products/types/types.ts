@@ -1,5 +1,6 @@
 export interface Product {
     id: number;
+    userId: string; 
     name: string;
     category: string;
     price: number;
@@ -7,6 +8,7 @@ export interface Product {
     status: 'In Stock' | 'Low Stock' | 'Out of Stock';
     lastUpdated: string;
     [key: string]: unknown;
+    image?: string
   }
 
   export interface ProductFormData {
@@ -14,27 +16,15 @@ export interface Product {
     category: string;
     price: string;
     stock: string;
+    image?: string
   }
   export type ProductStatus = 'In Stock' | 'Low Stock' | 'Out of Stock';
 
 export interface StatItem {
+  id: string;
   label: string;
-  value: number;
   color: string;
+  value: string;
 }
 
-
-
-  //form
-  export type FormFieldType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url';
-
-  export interface FormField {
-    name: string;
-    label: string;
-    type: FormFieldType;
-    placeholder?: string;
-    required?: boolean;
-    autoComplete?: string;
-    colSpan?: number;
-  }
   
